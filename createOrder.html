@@ -58,26 +58,45 @@
             $("#createOrder").submit(function(event){
                 event.preventDefault(); // 阻止表單的預設提交行為 
                 var form = document.getElementById("createOrder"); 
-                let formData = new FormData(form);
-                console.log(formData);
-                // fetch('https://api.example.com/data',{
-                //     body:formData,
-                //     method:"post"
-                // })
-                // .then(response => {
-                //     if (!response.ok) {
-                //     throw new Error('Network response was not ok');
-                //     }
-                //     return response.json(); // 將 Response 轉換為 JSON
-                // })
-                // .then(data => {
-                //     console.log(data); // 處理成功的回應
-                // })
-                // .catch(error => {
-                //     console.error('There was a problem with the fetch operation:', error);
-                // });
+                let formData = new FormData(this); 
+                fetch('http://localhost:8080/createOrder',{
+                    body:formData,
+                    method:"post"
+                })
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // 將 Response 轉換為 JSON
+                })
+                .then(data => {
+                    createOrderForm(data);
+                    //console.log(data); // 處理成功的回應
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
              });
             });
+            /**
+             * 
+             * 生成 藍星付款頁
+            */
+            function createOrderForm(jsonData){
+                const form = document.createElement('form');
+                form.setAttribute('MerchantID', jsonData.merchantID);
+                form.setAttribute('TradeInfo', jsonData.tradeInfo);
+                form.setAttribute('TradeSha', jsonData.tradeSha);
+                form.setAttribute('Version', jsonData.version);
+                form.setAttribute('method', 'post'); // 使用 POST 方法提交
+                form.setAttribute('action', 'https://ccore.newebpay.com/MPG/mpg_gateway'); // 设置跳转的目标页面
+                // 将表单添加到页面中
+                document.body.appendChild(form);
+
+                // 自动提交表单
+                form.submit();
+                console.log(jsonData);
+            }
          
     </script>
     <!--  <script type="text/javascript">document.getElementById('order-form').submit();</script> -->
