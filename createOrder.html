@@ -46,12 +46,12 @@
     
 
 
-    <form id="order-form" method="post" action=https://ccore.newebpay.com/MPG/mpg_gateway >
+    <!-- <form id="order-form" method="post" action=https://ccore.newebpay.com/MPG/mpg_gateway >
         <input type="hidden" name="MerchantID" value="MS151433308">
-        <input type="hidden" name="TradeInfo" value="5AD598EADBA9908D6D6AE41859E45DA6511020E667BA7DA6E2BDA7D2E8762D803E69EB093D8952EDAC40763C1AD549A91E6C5077ABA3C86B5D07347A19DD1C15665B4E5F3DD84A860E12ADF01C952E654A1B76636B32AD1C69E0246999EC08DA6093E8BEF3D67C8641A03C3432817C27DF9A710414FE26D1EF09F92BF1965D8A26CEF680B05C52EF1AB6A3134462B50923BB24052CED0D1C526089E41F46DAB6424B7A659EB9E56D00E5DAB281CE4E540C82B0C3F9A335F2FD16DCD87C05BD79831C3840398F8906978644866222DE99DBFB9BCE4617608ACCBB0C2188F7792C">
-        <input type="hidden" name="TradeSha" value="491C6371844A877C381E4FDBFF815E79FE22E526ABC7414E5569AF45496312A1">
-        <input type="hidden" name="Version" value="2.0">
-    </form>
+        <input type="hidden" name="TradeInfo" value="5AD598EADBA9908D6D6AE41859E45DA6511020E667BA7DA6E2BDA7D2E8762D803E69EB093D8952EDAC40763C1AD549A92BAF1890CC121939B7A3BFC9145571D43C4D5FB95C09C7C6FF25F11D37E2F2241B5975D252BC3C82F3F7A01AC4576E899FB7D1F5FC3D33A391D7723B2806B083B6E66CE35F5CB6148E3FA6D17086C615C84606A1E85E5AB7395B9500E2F99AA657B334B3C49864395D8112AE7875598DE1C15F6469B6DFABB9A2200C648D65E51DCB470D00805E05F54A365DFBFBAF8DB7F35B966C066B7BBCC6AEABD0B6A93B493064C1C603214D33580E2219FEBA86">
+        <input type="hidden" name="TradeSha" value="1E4DEDE9ABE8472F0F0C0CD24C5AD79184BF78F1482AF2B7F528924E852CF227">
+        <input type="hidden" name="Version" value="2.0"> 
+    </form> -->
 
     <script>
          $(document).ready(function(){ 
@@ -82,20 +82,40 @@
              * 
              * 生成 藍星付款頁
             */
-            function createOrderForm(jsonData){
-                const form = document.createElement('form');
-                form.setAttribute('MerchantID', jsonData.merchantID);
-                form.setAttribute('TradeInfo', jsonData.tradeInfo);
-                form.setAttribute('TradeSha', jsonData.tradeSha);
-                form.setAttribute('Version', jsonData.version);
-                form.setAttribute('method', 'post'); // 使用 POST 方法提交
-                form.setAttribute('action', 'https://ccore.newebpay.com/MPG/mpg_gateway'); // 设置跳转的目标页面
-                // 将表单添加到页面中
-                document.body.appendChild(form);
+            function createOrderForm(jsonData){  
+                // 創建表單元素
+            var form = document.createElement("form");
+            form.setAttribute("id", "order-form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "https://ccore.newebpay.com/MPG/mpg_gateway");
 
-                // 自动提交表单
-                form.submit();
-                console.log(jsonData);
+            // 創建輸入區及屬性
+            var merchantIdInput = document.createElement("input");
+            merchantIdInput.setAttribute("type", "hidden");
+            merchantIdInput.setAttribute("name", "MerchantID");
+            merchantIdInput.setAttribute("value", jsonData.merchantID);
+            form.appendChild(merchantIdInput);
+
+            var tradeInfoInput = document.createElement("input");
+            tradeInfoInput.setAttribute("type", "hidden");
+            tradeInfoInput.setAttribute("name", "TradeInfo");
+            tradeInfoInput.setAttribute("value", jsonData.tradeInfo);
+            form.appendChild(tradeInfoInput);
+
+            var tradeShaInput = document.createElement("input");
+            tradeShaInput.setAttribute("type", "hidden");
+            tradeShaInput.setAttribute("name", "TradeSha");
+            tradeShaInput.setAttribute("value", jsonData.tradeSha);
+            form.appendChild(tradeShaInput);
+
+            var versionInput = document.createElement("input");
+            versionInput.setAttribute("type", "hidden");
+            versionInput.setAttribute("name", "Version");
+            versionInput.setAttribute("value", jsonData.version);
+            form.appendChild(versionInput);  
+            document.body.appendChild(form); 
+            // 提交表单
+            form.submit();
             }
          
     </script>
