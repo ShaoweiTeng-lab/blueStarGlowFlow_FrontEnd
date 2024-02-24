@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-g2xAIV8pLElpOOzShLbg73DJYd2w21vCc6iW3E99eBtXRZK1nKYhM0nhP5oQhcP9" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body>
+
+    <title>藍星查詢訂單</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="pt-5 text-center">
+            <img class="d-block mx-auto mb-4" src="https://www.newebpay.com/ud/img/logo_sm2.png" alt="">
+            <h2>藍新金流串接範例</h2> 
+        </div>
+        <div class="row my">
+            <hr class="my-4">
+            <div class="col-md">
+                <h2 class="mt-3 mb-3">查詢單筆訂單</h2>
+                <small style="color: red">MPG (Multiple Payment Gateway) 是藍新金流提供的 RWD 頁面 <br> 使用於線上交易的幕前情境供消費者進行付款</small>
+                <form id = "getOreder" action="localhost:8080/createOrder" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">訂單金額 </label>
+                        <input type="text" class="form-control" name="amt" placeholder="訂單金額">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">訂單編號 </label>
+                        <input type="text" class="form-control" name="merchantOrderNo" placeholder="訂單編號">
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label class="form-label">藍星金流交易序號</label>
+                        <input type="text" class="form-control" name="tradeNo" placeholder="藍星金流交易序號">
+                    </div> -->
+                    <input type="submit" class="btn btn-primary" value="送出">
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    
+
+
+    <!-- <form id="order-form" method="post" action=https://ccore.newebpay.com/MPG/mpg_gateway >
+        <input type="hidden" name="MerchantID" value="MS151433308">
+        <input type="hidden" name="TradeInfo" value="5AD598EADBA9908D6D6AE41859E45DA6511020E667BA7DA6E2BDA7D2E8762D803E69EB093D8952EDAC40763C1AD549A92BAF1890CC121939B7A3BFC9145571D43C4D5FB95C09C7C6FF25F11D37E2F2241B5975D252BC3C82F3F7A01AC4576E899FB7D1F5FC3D33A391D7723B2806B083B6E66CE35F5CB6148E3FA6D17086C615C84606A1E85E5AB7395B9500E2F99AA657B334B3C49864395D8112AE7875598DE1C15F6469B6DFABB9A2200C648D65E51DCB470D00805E05F54A365DFBFBAF8DB7F35B966C066B7BBCC6AEABD0B6A93B493064C1C603214D33580E2219FEBA86">
+        <input type="hidden" name="TradeSha" value="1E4DEDE9ABE8472F0F0C0CD24C5AD79184BF78F1482AF2B7F528924E852CF227">
+        <input type="hidden" name="Version" value="2.0"> 
+    </form> -->
+
+    <script>
+         $(document).ready(function(){ 
+            $("#getOreder").submit(function(event){
+                event.preventDefault(); // 阻止表單的預設提交行為 
+                var form = document.getElementById("getOreder"); 
+                let formData = new FormData(this); 
+                fetch('http://localhost:8080/getOrder',{
+                    body:formData,
+                    method:"post"
+                })
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // 將 Response 轉換為 JSON
+                })
+                .then(data => { 
+                    console.log(data.Result); // 處理成功的回應
+                    alert(data.Result.TradeStatus==0?"尚未付款":"完成付款");
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+             });
+            });
+         
+           
+    </script>
+    <!--  <script type="text/javascript">document.getElementById('order-form').submit();</script> -->
+</body>
+</html>
+
